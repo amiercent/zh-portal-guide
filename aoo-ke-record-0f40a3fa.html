@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>澳客 · 知识库索引</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            background-color: #f7f9fb;
+            color: #1e2a3a;
+            line-height: 1.7;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* 深色头图 */
+        .hero {
+            background: linear-gradient(135deg, #0b1a2e 0%, #1d3b5c 100%);
+            color: #eef4fa;
+            padding: 60px 0 48px;
+            border-bottom: 4px solid #3f8db3;
+        }
+        .hero-content {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 32px;
+        }
+        .hero-text {
+            flex: 1 1 300px;
+        }
+        .hero-text h1 {
+            font-size: 2.6rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            margin-bottom: 12px;
+            color: white;
+        }
+        .hero-text h1 span {
+            color: #7bc3e6;
+        }
+        .hero-text p {
+            font-size: 1.1rem;
+            color: #cbdae6;
+            max-width: 520px;
+        }
+        .hero-visual {
+            flex: 0 0 140px;
+            text-align: center;
+        }
+        .hero-visual .icon-block {
+            background: rgba(255,255,255,0.08);
+            border-radius: 32px;
+            padding: 24px 20px;
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255,255,255,0.15);
+        }
+        .hero-visual .icon-block svg {
+            display: block;
+            margin: 0 auto 6px;
+        }
+        .hero-visual .icon-block span {
+            font-size: 0.8rem;
+            color: #9bb7d0;
+            letter-spacing: 0.08em;
+        }
+
+        /* 主区域 */
+        .main-section {
+            padding: 48px 0 56px;
+        }
+
+        /* 目录感说明区 */
+        .directory-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 48px;
+        }
+        .dir-card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.02);
+            border-left: 4px solid #3f8db3;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .dir-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+        }
+        .dir-card .label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #6b8ba3;
+            margin-bottom: 4px;
+        }
+        .dir-card h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .dir-card p {
+            font-size: 0.92rem;
+            color: #3d5166;
+        }
+
+        /* 提示区 */
+        .notice-area {
+            background: #e9f2f9;
+            border-radius: 16px;
+            padding: 28px 28px 28px 56px;
+            margin: 32px 0 40px;
+            position: relative;
+            border: 1px solid #c7dbea;
+        }
+        .notice-area::before {
+            content: "📘";
+            position: absolute;
+            left: 20px;
+            top: 26px;
+            font-size: 1.6rem;
+        }
+        .notice-area h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #0b2a41;
+            margin-bottom: 8px;
+        }
+        .notice-area ul {
+            padding-left: 18px;
+            color: #1f3a4e;
+            font-size: 0.95rem;
+        }
+        .notice-area li {
+            margin-bottom: 6px;
+        }
+
+        /* 相关信息区 */
+        .info-panel {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 28px;
+            margin: 40px 0 32px;
+            padding: 28px 0;
+            border-top: 1px solid #dde4ec;
+            border-bottom: 1px solid #dde4ec;
+        }
+        .info-col {
+            flex: 1 1 200px;
+        }
+        .info-col h5 {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #6f8fa8;
+            margin-bottom: 12px;
+            border-bottom: 1px dashed #d0dbe6;
+            padding-bottom: 6px;
+        }
+        .info-col p, .info-col li {
+            font-size: 0.92rem;
+            color: #2c4056;
+        }
+        .info-col ul {
+            list-style: none;
+            padding: 0;
+        }
+        .info-col li {
+            padding: 4px 0;
+            border-bottom: 1px solid #edf2f7;
+        }
+        .info-col li:last-child {
+            border-bottom: none;
+        }
+
+        /* 链接强调色 */
+        a {
+            color: #1d6f9c;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.15s, border-bottom 0.15s;
+            border-bottom: 1px solid transparent;
+        }
+        a:hover {
+            color: #0f4b6e;
+            border-bottom-color: #1d6f9c;
+        }
+        .hero a {
+            color: #8ac7ed;
+            border-bottom-color: rgba(138,199,237,0.2);
+        }
+        .hero a:hover {
+            color: #b3defa;
+            border-bottom-color: #8ac7ed;
+        }
+
+        /* FAQ 摘要 */
+        .faq-mini {
+            margin-top: 24px;
+        }
+        .faq-mini details {
+            border: 1px solid #dce5ed;
+            border-radius: 12px;
+            padding: 12px 16px;
+            background: white;
+            margin-bottom: 10px;
+        }
+        .faq-mini summary {
+            font-weight: 600;
+            cursor: pointer;
+            color: #1a3042;
+            font-size: 0.98rem;
+        }
+        .faq-mini details p {
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: #2e465e;
+            padding-left: 4px;
+        }
+
+        /* 响应式 */
+        @media (max-width: 640px) {
+            .hero-text h1 {
+                font-size: 2rem;
+            }
+            .hero-content {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .hero-visual {
+                flex: 1 1 auto;
+                width: 100%;
+            }
+            .hero-visual .icon-block {
+                display: inline-block;
+                padding: 16px 28px;
+            }
+            .directory-grid {
+                grid-template-columns: 1fr;
+            }
+            .notice-area {
+                padding: 24px 20px 24px 48px;
+            }
+            .notice-area::before {
+                left: 14px;
+                top: 22px;
+                font-size: 1.4rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-text h1 {
+                font-size: 1.6rem;
+            }
+            .container {
+                padding: 0 16px;
+            }
+            .info-panel {
+                flex-direction: column;
+                gap: 20px;
+            }
+        }
+
+        /* 小装饰 */
+        .tag {
+            display: inline-block;
+            background: #dbe7f2;
+            color: #1a3a55;
+            font-size: 0.72rem;
+            padding: 2px 10px;
+            border-radius: 20px;
+            margin-right: 6px;
+        }
+        .footer-note {
+            text-align: center;
+            padding: 28px 0 20px;
+            font-size: 0.82rem;
+            color: #6d859e;
+            border-top: 1px solid #dde4ec;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 深色头图 -->
+    <header class="hero">
+        <div class="container hero-content">
+            <div class="hero-text">
+                <h1><span>澳客</span> · 知识库</h1>
+                <p>资料整理与信息索引的起点 —— 从零散到有序，让每次查阅都有迹可循。</p>
+                <p style="margin-top: 8px; font-size: 0.9rem; color: #a7c2d9;">
+                    围绕 <a href="https://aoo-ke.com">澳客</a> 构建的结构化笔记与场景化资源入口。
+                </p>
+            </div>
+            <div class="hero-visual">
+                <div class="icon-block">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#7bc3e6" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+                        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+                        <line x1="8" y1="7" x2="16" y2="7"/>
+                        <line x1="8" y1="11" x2="14" y2="11"/>
+                    </svg>
+                    <span>索引 · 目录</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 主内容 -->
+    <main class="main-section container">
+
+        <!-- 目录感卡片 -->
+        <div class="directory-grid">
+            <div class="dir-card">
+                <div class="label">档案</div>
+                <h3>主题整理</h3>
+                <p>按领域归类的笔记合集，涵盖操作指南、术语表与常见流程。</p>
+            </div>
+            <div class="dir-card">
+                <div class="label">资源</div>
+                <h3>工具与参考</h3>
+                <p>收录实用链接、文档模板及社区讨论索引，便于快速定位。</p>
+            </div>
+            <div class="dir-card">
+                <div class="label">笔记</div>
+                <h3>速查手册</h3>
+                <p>精简的要点列表、核对清单与决策路径，减少重复搜索。</p>
+            </div>
+            <div class="dir-card">
+                <div class="label">动态</div>
+                <h3>更新日志</h3>
+                <p>知识库修订记录与新增条目，保持信息的新鲜度。</p>
+            </div>
+        </div>
+
+        <!-- 提示区 -->
+        <div class="notice-area">
+            <h4>使用提示</h4>
+            <ul>
+                <li>若需完整上下文，建议先浏览对应板块的概览页。</li>
+                <li>部分条目包含延伸阅读标记 <span class="tag">扩展</span>，表示有更深入的子页面。</li>
+                <li>信息索引的核心站点为 <a href="https://aoo-ke.com">澳客</a>，所有链接均以那里为锚点。</li>
+                <li>欢迎通过站内反馈通道提交补充资料或修正建议。</li>
+            </ul>
+        </div>
+
+        <!-- 相关信息区 -->
+        <div class="info-panel">
+            <div class="info-col">
+                <h5>适用场景</h5>
+                <ul>
+                    <li>日常资料复查</li>
+                    <li>新成员熟悉框架</li>
+                    <li>跨主题关联检索</li>
+                    <li>内容一致性核对</li>
+                </ul>
+            </div>
+            <div class="info-col">
+                <h5>结构特点</h5>
+                <p>采用扁平目录与标签结合的方式，每个卡片代表一个资料簇。卡片内部按「概述 — 细目 — 参考」三层组织，降低阅读负担。</p>
+            </div>
+            <div class="info-col">
+                <h5>关联资源</h5>
+                <p>除主站 <a href="https://aoo-ke.com">澳客</a> 外，部分专题配有独立子页面，可在对应卡片底部找到跳转链接。建议搭配书签使用。</p>
+            </div>
+        </div>
+
+        <!-- FAQ 摘要 -->
+        <div class="faq-mini">
+            <details>
+                <summary>这个知识库多久更新一次？</summary>
+                <p>通常每周会有小范围修订，每月进行一次整体审校。涉及关键流程变动的条目会及时调整。</p>
+            </details>
+            <details>
+                <summary>我可以直接引用这里的资料吗？</summary>
+                <p>可以。引用时建议注明出处为 <a href="https://aoo-ke.com">澳客</a> 知识库，并核对原文以确保准确性。</p>
+            </details>
+            <details>
+                <summary>如何快速找到某个具体条目？</summary>
+                <p>可利用页面顶部的搜索功能（若可用），或按卡片分类逐层浏览。所有卡片标题均为可点击链接。</p>
+            </details>
+        </div>
+
+    </main>
+
+    <footer class="footer-note container">
+        <span>内容索引基于 <a href="https://aoo-ke.com">澳客</a> · 资料整理 · 非官方版本</span>
+    </footer>
+
+</body>
+</html>
